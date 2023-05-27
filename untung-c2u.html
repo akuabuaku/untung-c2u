@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+  <style>
+    .calculator {
+      width: 300px;
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+    }
+    .calculator input[type="number"] {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .calculator button {
+      width: 100%;
+      padding: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Calculator</h2>
+    <label for="order">Step 1, First Order:</label>
+    <input type="number" id="order" placeholder="Enter a number">
+    <button onclick="calculate()">Calculate</button>
+    <h3>Results:</h3>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      var order = parseInt(document.getElementById('order').value);
+
+      var layers = [order];
+      var total = order;
+
+      for (var i = 1; i <= 9; i++) {
+        order *= 2;
+        layers.push(order);
+        total += order;
+      }
+
+      var result = "";
+      for (var i = 0; i < layers.length; i++) {
+        result += "<p>Layer " + (i + 1) + ": " + layers[i] + "</p>";
+      }
+
+      var sumLayers = [order];
+      for (var i = 1; i <= 9; i++) {
+        var sum = 0;
+        for (var j = 0; j <= i; j++) {
+          sum += layers[j];
+        }
+        sumLayers.push(sum);
+      }
+
+      sumLayers[0] = layers[0]; // Set sum of layer 1 equal to the first order
+
+      var sumResult = "";
+      for (var i = 0; i < sumLayers.length; i++) {
+        sumResult += "<p>Sum of Layers " + (i + 1) + ": " + sumLayers[i] + "</p>";
+      }
+
+      result += sumResult + "<p>Total: " + total + "</p>";
+
+      var percentResult = "";
+      for (var i = 0; i < sumLayers.length; i++) {
+        var percent = sumLayers[i] * 0.01;
+        percentResult += "<p>Sum of Layers " + (i + 1) + ": " + percent + "</p>";
+      }
+
+      document.getElementById('result').innerHTML = result + "<h3>1% of sum of layers:</h3>" + percentResult;
+    }
+  </script>
+</body>
+</html>
